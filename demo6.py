@@ -5,6 +5,7 @@
 
 import requests
 
+
 #get请求
 def get_method():
     params = {
@@ -42,11 +43,6 @@ def post_method():
 
     response = requests.post(url,data=data,headers=headers,proxies=proxy)
     print(response.content.decode('utf-8'))
-
-
-
-
-
 
 
 
