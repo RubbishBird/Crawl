@@ -13,7 +13,9 @@ url = 'https://movie.douban.com/cinema/nowplaying/nanjing/'
 response = requests.get(url,headers=headers)
 text = response.text
 
+
 html = etree.HTML(text,parser=etree.HTMLParser(encoding='utf-8'))
+
 movies = []
 ul = html.xpath("//ul[@class='lists']")[0]
 lis = ul.xpath("./li")
