@@ -2,6 +2,7 @@
 
 from lxml import etree
 import requests
+import json
 
 BASE_DOMAIN = 'https://www.dytt8.net'
 HEADERS = {
@@ -94,6 +95,15 @@ def spider():
         for detail_url in detail_urls:
             movie = parse_detail_page(detail_url)
             movies.append(movie)
+        # 存储方式一：
+        # 将爬出来的电影转化成json格式
+        json_movies = json.dumps(movies,ensure_ascii=False)
+        with open('json_movies','w',encoding='utf-8') as fp:
+            fp.write(json_movies)
+
+        # 存储方式二：
+        # with open('json_movies', 'w', encoding='utf-8') as fp:
+        #     json.dump(movies,fp,ensure_ascii=False)
 
 
 if __name__ == '__main__':
