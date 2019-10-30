@@ -3,6 +3,7 @@
 from lxml import etree
 import requests
 import json
+import xlrd,xlwt
 
 BASE_DOMAIN = 'https://www.dytt8.net'
 HEADERS = {
@@ -88,23 +89,49 @@ def parse_detail_page(url):
 
 def spider():
     base_url = 'https://www.dytt8.net/html/gndy/dyzz/list_23_{}.html'
-    for x in range(1,2):
-        url = base_url.format(x)
-        detail_urls = get_detail_urls(url)
-        movies = []
-        for detail_url in detail_urls:
-            movie = parse_detail_page(detail_url)
-            movies.append(movie)
-        # 存储方式一：
-        # 将爬出来的电影转化成json格式
-        json_movies = json.dumps(movies,ensure_ascii=False)
-        with open('json_movies','w',encoding='utf-8') as fp:
-            fp.write(json_movies)
+    try:
+        for x in range(1,2):
+            url = base_url.format(x)
+            detail_urls = get_detail_urls(url)
+            movies = []
+            for detail_url in detail_urls:
+                movie = parse_detail_page(detail_url)
+                movies.append(movie)
+            # 存储方式一：
+            # 将爬出来的电影转化成json格式
+            # json_movies = json.dumps(movies,ensure_ascii=False)
+            # with open('json_movies','w',encoding='utf-8') as fp:
+            #     fp.write(json_movies)
+            return movies
+    except TimeoutError:
+        return spider()
 
         # 存储方式二：
         # with open('json_movies', 'w', encoding='utf-8') as fp:
         #     json.dump(movies,fp,ensure_ascii=False)
 
 
+head = ['电影名', '海报', '电影截图', '译名', '年代', '国家', '类别', '上映日期', '豆瓣评分', '电影时长', '导演', '主演', '简介']
+def init_excel(workbook):
+    sheet = workbook.add_sheet('电影描述')
+    for h in range(len(head)):
+        sheet.write(0, h, head[h])
+    return sheet
+
+
+def save_to_excel(movies,sheet):
+    for l in range(len(movies)):
+        h = l +1
+        # sheet.write(l,h,movies[l][head[l]])
+        for m in range(len(head)):
+            cell = movies[l].get(head[m])
+            sheet.write(h,m,cell)
+    workbook.save('./file/电影推荐.xls')
+
+
+
 if __name__ == '__main__':
-    spider()
+    workbook = xlwt.Workbook(encoding='utf-8')
+    sheet = init_excel(workbook)
+    movies = spider()
+    save_to_excel(movies,sheet)
