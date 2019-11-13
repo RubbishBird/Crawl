@@ -115,6 +115,7 @@ head = ['电影名', '海报', '电影截图', '译名', '年代', '国家', '�
 def init_excel(workbook):
     sheet = workbook.add_sheet('电影描述')
     for h in range(len(head)):
+        #第0行，第h列，写入内容为head[h]
         sheet.write(0, h, head[h])
     return sheet
 

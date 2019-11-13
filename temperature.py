@@ -4,6 +4,7 @@ from bs4 import BeautifulSoup
 import requests
 
 
+
 def parse_page(url):
     headers = {
         'User-Agent':'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36'
@@ -24,7 +25,8 @@ def parse_page(url):
             city = list(city_td.stripped_strings)[0]
             temp_td = tds[-2]
             min_temp = list(temp_td.stripped_strings)[0]
-        break
+            print(min_temp)
+
 
 
 
