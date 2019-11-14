@@ -52,7 +52,7 @@ def get_detail():
 
 head = ['序号','关键词','链接','关注人数','推荐指数']
 
-def init_excel():
+def init_excel(workbook):
     sheet = workbook.add_sheet('微博热搜')
     for h in range(len(head)):
         sheet.write(0,h,head[h])
@@ -73,3 +73,4 @@ if __name__ == '__main__':
     points = get_detail()
     sheet = init_excel(workbook)
     save_data(points,sheet)
+    print('Excel文件存在D盘，您可查看最新微博热点')
