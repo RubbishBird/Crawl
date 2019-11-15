@@ -41,6 +41,7 @@ def parse_url(url):
         name =re.sub(r'[\.。？\?!！]','',name)
         suffix =os.path.splitext(img_url)[1]
         img_name = name + suffix
+        print(img_name)
         #判断文件是否存在，如果不存在则进行下载
         if not os.path.isfile(os.path.join(save_path, img_name)):
             request.urlretrieve(img_url,filename=save_path + img_name,reporthook=show_percent)
